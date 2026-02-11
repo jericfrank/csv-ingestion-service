@@ -1,9 +1,11 @@
 import knex, { Knex } from 'knex';
-import { TableRecord, TableName } from './types';
+import { TableRecord } from './types';
 import { config } from './config';
 
-interface Tables {
-  [TableName]: TableRecord;
+declare module 'knex/types/tables' {
+  interface Tables {
+    records: TableRecord;
+  }
 }
 
 const knexConfig: Knex.Config = {
@@ -17,6 +19,6 @@ const knexConfig: Knex.Config = {
   pool: { min: 2, max: 10 },
 };
 
-const db = knex(knexConfig) as Knex<Tables, any>;
+const db = knex(knexConfig);
 
 export default db;
